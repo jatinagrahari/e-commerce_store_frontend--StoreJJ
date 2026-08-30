@@ -9,13 +9,14 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { Home } from "./pages";
+import { About, Home } from "./pages";
 import App from "./App.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<App />}>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
     </Route>,
   ),
 );

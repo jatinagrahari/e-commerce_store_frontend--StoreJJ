@@ -1,37 +1,176 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Menu, X, ShoppingCart } from "lucide-react";
+import { Button } from "./index";
+
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navHandler = () => {
+    if (isOpen) {
+    } else {
+    }
+  };
+
   return (
-    <>
-      <nav>
-        <div className="">
-          <div className="">Logo</div>
-          <div className="">
-            <ul className="">
-              <li className="">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="">
-                <Link to="/shop">Shop</Link>
-              </li>
-              <li className="">
-                <Link to="/about">About</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="">
-            <ul className="">
-              <li className="">
-                <Link to="/cart">Cart</Link>
-              </li>
-              <li className="/profile">
-                <Link>Profile</Link>
-              </li>
-            </ul>
+    <nav className="w-full border-b border-border bg-surface">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+        {/* Logo */}
+        <div className="text-2xl font-bold tracking-tight text-foreground">
+          Logo
+        </div>
+
+        {/* Main Navigation */}
+        <div>
+          <ul className="hidden md:flex items-center gap-8 ">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-muted hover:text-primary"}`
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/shop"
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors duration-200 ${
+                    isActive ? "text-primary" : "text-muted hover:text-primary"
+                  }`
+                }
+              >
+                Shop
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors duration-200 ${
+                    isActive ? "text-primary" : "text-muted hover:text-primary"
+                  }`
+                }
+              >
+                About
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+
+        {/* Right Navigation */}
+        <div>
+          <div className="hidden md:flex items-center gap-6">
+            <Button>
+              <NavLink
+                to="/shop"
+                className="flex gap-2 justify-center items-center text-sm font-medium transition-colors duration-200"
+              >
+                Cart{" "}
+                <div>
+                  <ShoppingCart width={"15px"} />{" "}
+                </div>
+              </NavLink>
+            </Button>
+            <Button type="secondary">
+              <NavLink
+                to="/profile"
+                className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
+              >
+                Profile
+              </NavLink>
+            </Button>
           </div>
         </div>
-      </nav>
-    </>
+
+        {/* mobile hamburger menu */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center justify-center rounded-md p-2 text-foreground transition-colors duration-200 hover:bg-secondary hover:text-primary md:hidden"
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+
+        {isOpen ? (
+          <div className="absolute left-0 top-16 w-full animate-slide-down border-b border-border bg-surface px-6 py-5 shadow-sm md:hidden">
+            <ul className="flex flex-col gap-5">
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className={({ isActive }) =>
+                    `block text-sm font-medium transition-colors duration-200 ${
+                      isActive
+                        ? "text-primary"
+                        : "text-muted hover:text-primary"
+                    }`
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/shop"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className={({ isActive }) =>
+                    `block text-sm font-medium transition-colors duration-200 ${
+                      isActive
+                        ? "text-primary"
+                        : "text-muted hover:text-primary"
+                    }`
+                  }
+                >
+                  Shop
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/about"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className={({ isActive }) =>
+                    `block text-sm font-medium transition-colors duration-200 ${
+                      isActive
+                        ? "text-primary"
+                        : "text-muted hover:text-primary"
+                    }`
+                  }
+                >
+                  About
+                </NavLink>
+              </li>
+            </ul>
+            <div className="pt-10 flex flex-col gap-4">
+              <Button type="primary" fullWidth>
+                <NavLink
+                  to="/shop"
+                  className="flex justify-center items-center gap-2 text-sm font-medium transition-colors duration-200 "
+                >
+                  Cart{" "}
+                  <div>
+                    <ShoppingCart width={"15px"} />
+                  </div>
+                </NavLink>
+              </Button>
+              <Button type="secondary">
+                <NavLink
+                  to="/profile"
+                  className="text-sm font-medium text-muted transition-colors duration-200 hover:text-primary"
+                >
+                  Profile
+                </NavLink>
+              </Button>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </nav>
   );
 };
 
