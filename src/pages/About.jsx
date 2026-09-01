@@ -22,9 +22,7 @@ import Button from "../components/Button";
 const AboutPage = () => {
   return (
     <main className="bg-background text-foreground">
-      {/* =========================================================
-          HERO — ABOUT THE DEVELOPER / PROJECT
-      ========================================================= */}
+      {/* main section */}
       <section className="border-b border-border bg-secondary/50">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:py-20">
           {/* Content */}
@@ -90,9 +88,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          ABOUT THE PROJECT
-      ========================================================= */}
+      {/* About Project */}
       <section className="bg-surface">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -170,9 +166,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          TECH STACK
-      ========================================================= */}
+      {/* tech stack */}
       <section className="border-y border-border bg-background">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:py-20">
           <div className="max-w-2xl">
@@ -250,9 +244,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          ARCHITECTURE
-      ========================================================= */}
+      {/* archietecture */}
       <section className="bg-secondary/50">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:py-20">
           <div className="max-w-2xl">
@@ -342,9 +334,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          KEY FEATURES
-      ========================================================= */}
+      {/* features */}
       <section className="bg-surface">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:py-20">
           <div className="max-w-2xl">
