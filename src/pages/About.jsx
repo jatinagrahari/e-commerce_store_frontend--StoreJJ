@@ -16,9 +16,9 @@ import {
   Lightbulb,
 } from "lucide-react";
 import { SiGithub } from "react-icons/si";
-
 import Button from "../components/Button";
-
+import me from "../assets/me.png";
+import devBg from "../assets/devBg.png";
 const AboutPage = () => {
   return (
     <main className="bg-background text-foreground">
@@ -45,7 +45,7 @@ const AboutPage = () => {
             <div className="mt-8 flex items-start gap-4">
               <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full border border-border bg-surface">
                 <img
-                  src="/images/developer.jpg"
+                  src={me}
                   alt="Developer"
                   className="h-full w-full object-cover"
                 />
@@ -80,9 +80,9 @@ const AboutPage = () => {
           {/* Hero image */}
           <div className="relative overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
             <img
-              src="/images/about-developer.jpg"
+              src={devBg}
               alt="Developer working on the Shoply project"
-              className="h-full min-h-[360px] w-full object-cover"
+              className="h-full min-h-90 w-full object-cover"
             />
           </div>
         </div>
@@ -264,7 +264,7 @@ const AboutPage = () => {
 
           {/* Architecture flow */}
           <div className="mt-10 overflow-x-auto rounded-2xl border border-border bg-surface p-6">
-            <div className="flex min-w-[900px] items-center justify-between gap-4">
+            <div className="flex min-w-225 items-center justify-between gap-4">
               <div className="flex w-36 flex-col items-center text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-primary">
                   <Smartphone className="h-6 w-6" />

@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
 
           {/* Discount Badge */}
           <span className="absolute left-4 top-4 rounded-full bg-success px-3 py-1 text-xs font-semibold text-white">
-            20% OFF
+            {product.discount}% OFF
           </span>
 
           {/* Wishlist
@@ -53,10 +53,12 @@ const ProductCard = ({ product }) => {
 
           {/* Price */}
           <div className="mt-4 flex items-center gap-2">
-            <span className="text-lg font-bold text-foreground">₹2,499</span>
+            <span className="text-lg font-bold text-foreground">
+              ₹{product.discountedPrice}
+            </span>
 
             <span className="text-sm text-muted line-through">
-              {product.price}
+              ₹{product.price}
             </span>
           </div>
 
