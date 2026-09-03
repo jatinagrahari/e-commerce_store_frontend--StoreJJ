@@ -1,15 +1,23 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { Button } from "./index";
+import { useSelector } from "react-redux";
+import { logout } from "../store/authSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const authStatus = useSelector((state) => state.auth.status);
+  const user = useSelector((state) => state.auth.userData);
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
-  const navHandler = () => {
-    if (isOpen) {
-    } else {
+  const handleLogout = () => {
+    if (!authStatus) {
+      navigate("/login");
     }
+    logout(); // authslice method
+    navigate("/home");
   };
 
   return (
@@ -76,14 +84,28 @@ const Navbar = () => {
                 </div>
               </NavLink>
             </Button>
-            <Button type="secondary">
-              <NavLink
-                to="/profile"
-                className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
-              >
-                Profile
-              </NavLink>
-            </Button>
+
+            {user ? (
+              <>
+                <Button type="secondary">
+                  <NavLink
+                    to="/profile"
+                    className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
+                  >
+                    Profile && {user.role === "admin" ? "admin" : null}
+                  </NavLink>
+                </Button>
+              </>
+            ) : (
+              <Button type="secondary">
+                <NavLink
+                  to="/login"
+                  className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
+                >
+                  Login
+                </NavLink>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -158,14 +180,27 @@ const Navbar = () => {
                   </div>
                 </NavLink>
               </Button>
-              <Button type="secondary">
-                <NavLink
-                  to="/profile"
-                  className="text-sm font-medium text-muted transition-colors duration-200 hover:text-primary"
-                >
-                  Profile
-                </NavLink>
-              </Button>
+              {user ? (
+                <>
+                  <Button type="secondary">
+                    <NavLink
+                      to="/profile"
+                      className="text-sm font-medium text-muted transition-colors duration-200 hover:text-primary"
+                    >
+                      Profile && {user.role === "admin" ? "admin" : null}
+                    </NavLink>
+                  </Button>
+                </>
+              ) : (
+                <Button type="secondary">
+                  <NavLink
+                    to="/login"
+                    className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
+                  >
+                    Login
+                  </NavLink>
+                </Button>
+              )}
             </div>
           </div>
         ) : null}
