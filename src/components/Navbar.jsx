@@ -190,6 +190,9 @@ const Navbar = () => {
                       Profile && {user.role === "admin" ? "admin" : null}
                     </NavLink>
                   </Button>
+                  <Button type="secondary" onClick={handleLogout}>
+                    Logout
+                  </Button>
                 </>
               ) : (
                 <Button type="secondary">

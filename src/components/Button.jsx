@@ -12,16 +12,17 @@ const Button = ({
 
   const variants = {
     primary:
-      "bg-primary text-white hover:bg-primary-hover active:bg-primary-active",
+      "bg-primary text-white hover:bg-primary-hover active:bg-primary-active cursor-pointer",
 
     secondary:
-      "border border-border bg-surface text-foreground hover:bg-secondary hover:text-primary",
+      "border border-border bg-surface text-foreground hover:bg-secondary hover:text-primary cursor-pointer",
 
-    outline: "border border-primary text-primary hover:bg-secondary",
+    outline:
+      "border border-primary text-primary hover:bg-secondary cursor-pointer",
 
-    danger: "bg-error text-white hover:bg-red-700",
+    danger: "bg-error text-white hover:bg-red-700 cursor-pointer",
 
-    success: "bg-success text-white hover:bg-green-700",
+    success: "bg-success text-white hover:bg-green-700 cursor-pointer",
   };
 
   const width = fullWidth ? "w-full" : "";

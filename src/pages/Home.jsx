@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   Truck,
@@ -17,8 +17,28 @@ import {
   CustomerSayCard,
   StoreStats,
 } from "../components";
+import { ProductCard } from "../components";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // const fetchProducts = async () => {
+    (async () => {
+      try {
+        const res = await fetch("/api/v1/products");
+        const data = await res.json();
+        // setProducts(data.slice(0, 4)); // featured products
+        setProducts(data.data); // featured products
+      } catch (error) {
+        console.error(error.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <main className="bg-background text-foreground">
       {/* =========================================================
@@ -251,10 +271,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* =========================================================
-          NEW ARRIVALS
-      ========================================================= */}
+      {/* featured section */}
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex items-center justify-between">
           <div>
@@ -263,7 +280,7 @@ const Home = () => {
             </p>
 
             <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              New Arrivals
+              Featured Products
             </h2>
           </div>
 
@@ -273,36 +290,12 @@ const Home = () => {
           </button>
         </div>
 
-        {/* =====================================================
-            DATA NEEDED:
-            ProductCard components will be rendered here
-            using actual product data from the backend.
-        ====================================================== */}
-
         <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-dashed border-primary/40 bg-secondary">
-            <span className="text-sm font-medium text-primary">
-              DATA NEEDED: ProductCard
-            </span>
-          </div>
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
 
-          <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-dashed border-primary/40 bg-secondary">
-            <span className="text-sm font-medium text-primary">
-              DATA NEEDED: ProductCard
-            </span>
-          </div>
-
-          <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-dashed border-primary/40 bg-secondary">
-            <span className="text-sm font-medium text-primary">
-              DATA NEEDED: ProductCard
-            </span>
-          </div>
-
-          <div className="hidden min-h-[420px] items-center justify-center rounded-2xl border border-dashed border-primary/40 bg-secondary sm:flex">
-            <span className="text-sm font-medium text-primary">
-              DATA NEEDED: ProductCard
-            </span>
-          </div>
+          {/*  */}
 
           <div className="hidden min-h-[420px] items-center justify-center rounded-2xl border border-dashed border-primary/40 bg-secondary lg:flex">
             <span className="text-sm font-medium text-primary">
@@ -312,14 +305,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          EXCLUSIVE OFFER
-      ========================================================= */}
+      {/* exclusive offer */}
       <ExclusiveOffer />
 
-      {/* =========================================================
-          WHY SHOP WITH US
-      ========================================================= */}
+      {/* why shop with us */}
       <section className="mx-auto max-w-7xl px-6 py-12">
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-wider text-primary">

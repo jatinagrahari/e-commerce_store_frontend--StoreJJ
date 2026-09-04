@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -14,16 +14,47 @@ import {
   Star,
   Truck,
 } from "lucide-react";
-
+import { toast } from "react-toastify";
 import Button from "../components/Button";
-import ProductCard from "../components/ProductCard";
+// import ProductCard from "../components/ProductCard";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../store/cartSlice";
 
 const ProductDetails = () => {
+  const [product, setProduct] = useState({});
+  const [image, setImage] = useState();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`/api/v1/products/${id}`);
+        const data = await res.json();
+        setProduct(data.data);
+        setImage(data.data.images[0].url);
+      } catch (error) {
+        console.error(error.message);
+      }
+    })();
+  }, [id]);
+
+  const handleCart = () => {
+    dispatch(addToCart({ product, quantity }));
+    toast.success("Product added to cart");
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 5000);
+  };
+
   return (
     <main className="bg-background text-foreground">
-      {/* =========================================================
-          BREADCRUMB
-      ========================================================= */}
+      {/* hero top section */}
       <section className="mx-auto max-w-7xl px-6 pt-6">
         <div className="flex items-center gap-2 text-sm text-muted">
           <span className="cursor-pointer transition-colors hover:text-primary">
@@ -44,23 +75,22 @@ const ProductDetails = () => {
 
           <ChevronRight className="h-4 w-4" />
 
-          <span className="font-medium text-foreground">Classic Hoodie</span>
+          <span className="font-medium text-foreground">
+            {product.category}
+          </span>
         </div>
       </section>
 
-      {/* =========================================================
-          PRODUCT MAIN SECTION
-      ========================================================= */}
+      {/* product section */}
+
       <section className="mx-auto max-w-7xl px-6 py-8">
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* =====================================================
-              PRODUCT GALLERY
-          ====================================================== */}
+          {/* photos */}
           <div>
             {/* Main Image */}
             <div className="group relative overflow-hidden rounded-2xl bg-secondary">
               <img
-                src="/images/products/classic-hoodie.jpg"
+                src={image}
                 alt="Classic Hoodie"
                 className="aspect-square h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -89,37 +119,19 @@ const ProductDetails = () => {
               </button>
 
               <div className="grid flex-1 grid-cols-4 gap-3">
-                <button className="overflow-hidden rounded-xl border-2 border-primary bg-secondary">
-                  <img
-                    src="/images/products/classic-hoodie.jpg"
-                    alt="Classic Hoodie front"
-                    className="aspect-square w-full object-cover"
-                  />
-                </button>
-
-                <button className="overflow-hidden rounded-xl border border-border bg-secondary transition-colors hover:border-primary">
-                  <img
-                    src="/images/products/classic-hoodie-back.jpg"
-                    alt="Classic Hoodie back"
-                    className="aspect-square w-full object-cover"
-                  />
-                </button>
-
-                <button className="overflow-hidden rounded-xl border border-border bg-secondary transition-colors hover:border-primary">
-                  <img
-                    src="/images/products/classic-hoodie-detail.jpg"
-                    alt="Classic Hoodie detail"
-                    className="aspect-square w-full object-cover"
-                  />
-                </button>
-
-                <button className="overflow-hidden rounded-xl border border-border bg-secondary transition-colors hover:border-primary">
-                  <img
-                    src="/images/products/classic-hoodie-fabric.jpg"
-                    alt="Classic Hoodie fabric"
-                    className="aspect-square w-full object-cover"
-                  />
-                </button>
+                {product.images?.map((imageData) => (
+                  <button
+                    key={imageData.url}
+                    onClick={() => setImage(imageData.url)}
+                    className={`overflow-hidden rounded-xl ${imageData.url === image ? `border-2 border-primary bg-secondary` : null} `}
+                  >
+                    <img
+                      src={imageData.url}
+                      alt={imageData.url}
+                      className="aspect-square w-full object-cover"
+                    />
+                  </button>
+                ))}
               </div>
 
               <button
@@ -131,16 +143,14 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* =====================================================
-              PRODUCT INFORMATION
-          ====================================================== */}
+          {/* product info */}
           <div className="flex flex-col">
             {/* Category */}
-            <p className="text-sm font-medium text-muted">Men's Fashion</p>
+            <p className="text-sm font-medium text-muted">{product.category}</p>
 
             {/* Product Name */}
             <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-              Classic Hoodie
+              {product.name}
             </h1>
 
             {/* Rating */}
@@ -155,7 +165,9 @@ const ProductDetails = () => {
 
               <span className="text-sm font-medium">4.8</span>
 
-              <span className="text-sm text-muted">(124 reviews)</span>
+              <span className="text-sm text-muted">
+                ({product.totalNumberOfReviews})
+              </span>
 
               <span className="text-muted">|</span>
 
@@ -164,12 +176,16 @@ const ProductDetails = () => {
 
             {/* Price */}
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <span className="text-3xl font-bold">₹2,499</span>
+              <span className="text-3xl font-bold">
+                ₹{product.discountedPrice}
+              </span>
 
-              <span className="text-base text-muted line-through">₹3,099</span>
+              <span className="text-base text-muted line-through">
+                ₹{product.price}
+              </span>
 
               <span className="rounded-md bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-600">
-                20% OFF
+                {product.discount}% OFF
               </span>
             </div>
 
@@ -177,16 +193,12 @@ const ProductDetails = () => {
 
             {/* Description */}
             <p className="mt-6 text-sm leading-7 text-muted">
-              A timeless hoodie designed for everyday comfort. Made with premium
-              cotton blend fabric that feels soft, looks great, and keeps you
-              warm all day long.
+              {product.description}
             </p>
 
             <div className="my-6 border-t border-border" />
 
-            {/* =================================================
-                COLOR
-            ================================================== */}
+            {/* color */}
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold">Color:</span>
@@ -229,9 +241,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* =================================================
-                SIZE
-            ================================================== */}
+            {/* size */}
             <div className="mt-6">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold">Size:</span>
@@ -264,9 +274,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* =================================================
-                QUANTITY
-            ================================================== */}
+            {/* Quantity */}
             <div className="mt-6">
               <span className="text-sm font-semibold">Quantity:</span>
 
@@ -274,28 +282,32 @@ const ProductDetails = () => {
                 <button
                   className="flex h-10 w-10 items-center justify-center text-muted transition-colors hover:bg-secondary hover:text-primary"
                   aria-label="Decrease quantity"
+                  onClick={() =>
+                    quantity > 1 ? setQuantity(quantity - 1) : quantity
+                  }
                 >
                   <Minus className="h-4 w-4" />
                 </button>
 
                 <span className="flex h-10 w-12 items-center justify-center border-x border-border text-sm font-medium">
-                  1
+                  {quantity}
                 </span>
 
                 <button
                   className="flex h-10 w-10 items-center justify-center text-muted transition-colors hover:bg-secondary hover:text-primary"
                   aria-label="Increase quantity"
+                  onClick={() =>
+                    quantity < 10 ? setQuantity(quantity + 1) : quantity
+                  }
                 >
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
-            {/* =================================================
-                PURCHASE BUTTONS
-            ================================================== */}
+            {/* purchase cta */}
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              <Button type="primary">
+              <Button type="primary" onClick={handleCart} disabled={isAdded}>
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 Add to Cart
               </Button>
@@ -303,9 +315,7 @@ const ProductDetails = () => {
               <Button type="outline">Buy Now</Button>
             </div>
 
-            {/* =================================================
-                SHIPPING BENEFITS
-            ================================================== */}
+            {/* shipping */}
             <div className="mt-7 grid gap-3 rounded-xl bg-secondary p-5 sm:grid-cols-3">
               {/* Shipping */}
               <div className="flex items-start gap-3">
@@ -350,23 +360,13 @@ const ProductDetails = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          PRODUCT INFORMATION
-      ========================================================= */}
+      {/* product info */}
       <section className="mx-auto max-w-7xl px-6 py-8">
         <div className="overflow-hidden rounded-2xl border border-border bg-surface">
           {/* Tabs */}
           <div className="flex overflow-x-auto border-b border-border">
             <button className="whitespace-nowrap border-b-2 border-primary px-7 py-5 text-sm font-semibold text-primary">
               Description
-            </button>
-
-            <button className="whitespace-nowrap px-7 py-5 text-sm font-medium text-muted transition-colors hover:text-primary">
-              Specifications
-            </button>
-
-            <button className="whitespace-nowrap px-7 py-5 text-sm font-medium text-muted transition-colors hover:text-primary">
-              Shipping & Returns
             </button>
           </div>
 
@@ -377,43 +377,13 @@ const ProductDetails = () => {
               <h2 className="text-lg font-semibold">About this product</h2>
 
               <p className="mt-4 text-sm leading-7 text-muted">
-                The Classic Hoodie is your go-to layer for any season. Crafted
-                from a premium cotton blend, it offers the perfect balance of
-                comfort, durability, and style. Whether you're heading out or
-                staying in, this hoodie has you covered.
+                {product.description}
               </p>
-
-              <ul className="mt-6 space-y-3">
-                <li className="flex items-center gap-3 text-sm text-muted">
-                  <Check className="h-4 w-4 shrink-0 text-primary" />
-                  Soft and breathable cotton blend fabric
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-muted">
-                  <Check className="h-4 w-4 shrink-0 text-primary" />
-                  Adjustable drawstring hood
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-muted">
-                  <Check className="h-4 w-4 shrink-0 text-primary" />
-                  Ribbed cuffs and hem for a snug fit
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-muted">
-                  <Check className="h-4 w-4 shrink-0 text-primary" />
-                  Kangaroo pocket for convenience
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-muted">
-                  <Check className="h-4 w-4 shrink-0 text-primary" />
-                  Available in multiple colors and sizes
-                </li>
-              </ul>
             </div>
 
             {/* Specifications */}
             <div className="rounded-xl bg-secondary p-6">
-              <div className="space-y-5">
+              {/* <div className="space-y-5">
                 <div className="flex items-center justify-between border-b border-border pb-4">
                   <span className="text-sm text-muted">Material</span>
 
@@ -441,202 +411,13 @@ const ProductDetails = () => {
                     Machine wash cold
                   </span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </section>
 
-      {/* =========================================================
-          CUSTOMER REVIEWS
-      ========================================================= */}
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Reviews
-            </p>
-
-            <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              Customer Reviews
-            </h2>
-          </div>
-
-          <button className="hidden items-center gap-1 text-sm font-semibold text-primary sm:flex">
-            See all reviews
-            <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
-
-        {/* Review Summary */}
-        <div className="mt-8 grid gap-8 rounded-2xl border border-border bg-surface p-7 lg:grid-cols-[220px_1fr]">
-          {/* Overall Rating */}
-          <div className="text-center lg:border-r lg:border-border">
-            <p className="text-5xl font-bold">4.8</p>
-
-            <div className="mt-3 flex justify-center gap-0.5 text-yellow-500">
-              <Star className="h-5 w-5 fill-current" />
-              <Star className="h-5 w-5 fill-current" />
-              <Star className="h-5 w-5 fill-current" />
-              <Star className="h-5 w-5 fill-current" />
-              <Star className="h-5 w-5 fill-current" />
-            </div>
-
-            <p className="mt-2 text-xs text-muted">Based on 124 reviews</p>
-          </div>
-
-          {/* Rating Breakdown */}
-          <div className="space-y-3">
-            {/* 5 Stars */}
-            <div className="flex items-center gap-3">
-              <span className="w-6 text-sm">5</span>
-
-              <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full w-[90%] rounded-full bg-primary" />
-              </div>
-
-              <span className="w-10 text-right text-xs text-muted">90%</span>
-            </div>
-
-            {/* 4 Stars */}
-            <div className="flex items-center gap-3">
-              <span className="w-6 text-sm">4</span>
-
-              <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full w-[7%] rounded-full bg-primary" />
-              </div>
-
-              <span className="w-10 text-right text-xs text-muted">7%</span>
-            </div>
-
-            {/* 3 Stars */}
-            <div className="flex items-center gap-3">
-              <span className="w-6 text-sm">3</span>
-
-              <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full w-[2%] rounded-full bg-primary" />
-              </div>
-
-              <span className="w-10 text-right text-xs text-muted">2%</span>
-            </div>
-
-            {/* 2 Stars */}
-            <div className="flex items-center gap-3">
-              <span className="w-6 text-sm">2</span>
-
-              <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full w-[1%] rounded-full bg-primary" />
-              </div>
-
-              <span className="w-10 text-right text-xs text-muted">1%</span>
-            </div>
-
-            {/* 1 Star */}
-            <div className="flex items-center gap-3">
-              <span className="w-6 text-sm">1</span>
-
-              <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full w-0 rounded-full bg-primary" />
-              </div>
-
-              <span className="w-10 text-right text-xs text-muted">0%</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Review Cards */}
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
-          {/* Review 1 */}
-          <div className="rounded-2xl border border-border bg-surface p-6">
-            <div className="flex gap-0.5 text-yellow-500">
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-            </div>
-
-            <h3 className="mt-4 text-sm font-semibold">
-              Excellent quality and very comfortable.
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              Perfect fit and the material feels premium. Very happy with the
-              purchase.
-            </p>
-
-            <div className="mt-5">
-              <p className="text-sm font-semibold">Rahul Sharma</p>
-
-              <p className="mt-1 text-xs text-muted">Verified Buyer</p>
-            </div>
-          </div>
-
-          {/* Review 2 */}
-          <div className="rounded-2xl border border-border bg-surface p-6">
-            <div className="flex gap-0.5 text-yellow-500">
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-            </div>
-
-            <h3 className="mt-4 text-sm font-semibold">Really nice hoodie.</h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              The fabric is soft and looks premium. The sizing was exactly right
-              for me.
-            </p>
-
-            <div className="mt-5">
-              <p className="text-sm font-semibold">Priya Mehta</p>
-
-              <p className="mt-1 text-xs text-muted">Verified Buyer</p>
-            </div>
-          </div>
-
-          {/* Review 3 */}
-          <div className="rounded-2xl border border-border bg-surface p-6">
-            <div className="flex gap-0.5 text-yellow-500">
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-              <Star className="h-4 w-4 fill-current" />
-            </div>
-
-            <h3 className="mt-4 text-sm font-semibold">
-              Loved the color and fit.
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              High-quality hoodie with a clean look. Would definitely recommend
-              it.
-            </p>
-
-            <div className="mt-5">
-              <p className="text-sm font-semibold">Arjun Verma</p>
-
-              <p className="mt-1 text-xs text-muted">Verified Buyer</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================
-          RELATED PRODUCTS
-      ========================================================= */}
+      {/* related products */}
       <section className="mx-auto max-w-7xl px-6 py-12">
         <div className="flex items-center justify-between">
           <div>
@@ -660,11 +441,11 @@ const ProductDetails = () => {
           {/* DATA NEEDED:
               Replace these with related products from backend.
           */}
+          {/* <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard /> */}
         </div>
       </section>
     </main>

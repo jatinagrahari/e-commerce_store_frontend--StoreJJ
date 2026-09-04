@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   return (
@@ -8,7 +9,7 @@ const ProductCard = ({ product }) => {
       <Link to={`/products/${product._id}`}>
         <div className="relative aspect-square overflow-hidden bg-background">
           <img
-            src={product.image}
+            src={product.images[0].url}
             alt="Product"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
