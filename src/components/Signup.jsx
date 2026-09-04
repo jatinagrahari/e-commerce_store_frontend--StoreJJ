@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import Input from "../components/Input";
 
 const Signup = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  const password = watch("password");
+
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-8">
@@ -10,54 +25,48 @@ const Signup = () => {
           <p className="text-[#6B7280] mt-2">Join Store JJ today</p>
         </div>
 
-        <form className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-[#111111] mb-2">
-              Full Name
-            </label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <Input
+            label="Full Name"
+            type="text"
+            placeholder="Enter your full name"
+            {...register("name", {
+              required: "Name is required",
+            })}
+          />
 
-            <input
-              type="text"
-              placeholder="Enter your full name"
-              className="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#EFF6FF] transition"
-            />
-          </div>
+          <Input
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            {...register("email", {
+              required: "Email is required",
+            })}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-[#111111] mb-2">
-              Email
-            </label>
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Create a password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
+          />
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#EFF6FF] transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#111111] mb-2">
-              Password
-            </label>
-
-            <input
-              type="password"
-              placeholder="Create a password"
-              className="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#EFF6FF] transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#111111] mb-2">
-              Confirm Password
-            </label>
-
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              className="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#EFF6FF] transition"
-            />
-          </div>
+          <Input
+            label="Confirm Password"
+            type="password"
+            placeholder="Confirm your password"
+            {...register("confirmPassword", {
+              required: "Please confirm your password",
+              validate: (value) =>
+                value === password || "Passwords do not match",
+            })}
+          />
 
           <button
             type="submit"

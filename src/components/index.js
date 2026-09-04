@@ -6,8 +6,11 @@ import CustomerSayCard from "./CustomerSayCard";
 import StoreStats from "./StoreStats";
 import ProductCard from "./ProductCard";
 import LoadingScreen from "./LoadingScreen";
+import ProductDetails from "./ProductDetails";
 import Login from "./Login";
 import Signup from "./Signup";
+import Input from "./Input";
+import CustomerReview from "./CustomerReview";
 
 export {
   Navbar,
@@ -20,4 +23,7 @@ export {
   LoadingScreen,
   Signup,
   ProductCard,
+  Input,
+  ProductDetails,
+  CustomerReview,
 };

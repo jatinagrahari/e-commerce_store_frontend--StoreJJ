@@ -308,8 +308,12 @@ const ProductDetails = () => {
             {/* purchase cta */}
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
               <Button type="primary" onClick={handleCart} disabled={isAdded}>
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                Add to Cart
+                {isAdded ? (
+                  <Check className="mr-2 h-4 w-4" />
+                ) : (
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                )}
+                {isAdded ? "Added to Cart" : "Add to Cart"}
               </Button>
 
               <Button type="outline">Buy Now</Button>
