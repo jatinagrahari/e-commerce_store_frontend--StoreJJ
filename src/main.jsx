@@ -9,7 +9,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { About, Home } from "./pages";
+import { About, Home, Signup, Login, Verification } from "./pages";
 import App from "./App.jsx";
 import ProductDetails from "./components/ProductDetails.jsx";
 
@@ -19,6 +19,9 @@ const router = createBrowserRouter(
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/products/:id" element={<ProductDetails />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/signup/verify-email" element={<Verification />} />
+      <Route path="/login" element={<Login />} />
     </Route>,
   ),
 );

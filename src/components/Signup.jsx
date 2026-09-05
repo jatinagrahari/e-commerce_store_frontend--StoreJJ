@@ -1,20 +1,45 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
+import { useState } from "react";
+import { createAccount } from "../admin/auth";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 const Signup = () => {
+  const [error, setError] = useState(null);
+  const [isCreated, setIsCreated] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      setError("password must match");
+      return;
+    }
+    setError(null);
 
-  const password = watch("password");
+    try {
+      setIsCreated(true);
+      const user = await createAccount(data.name, data.email, data.password);
+      const response = user.data.data;
+      toast.success("signed up success! please verify email");
+      dispatch(login(response));
+      navigate("/signup/verify-email");
+      setIsCreated(false);
+    } catch (error) {
+      setError(error.response?.data?.message || "something went wrong");
+      setIsCreated(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4 py-10">
@@ -24,7 +49,9 @@ const Signup = () => {
 
           <p className="text-[#6B7280] mt-2">Join Store JJ today</p>
         </div>
-
+        {error && (
+          <p className="text-red-500 text-sm text-center py-4">{error}</p>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <Input
             label="Full Name"
@@ -63,16 +90,15 @@ const Signup = () => {
             placeholder="Confirm your password"
             {...register("confirmPassword", {
               required: "Please confirm your password",
-              validate: (value) =>
-                value === password || "Passwords do not match",
             })}
           />
 
           <button
             type="submit"
             className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3 rounded-lg transition"
+            disabled={isCreated}
           >
-            Create Account
+            {isCreated ? "Signing up..." : "Create Account"}
           </button>
         </form>
 

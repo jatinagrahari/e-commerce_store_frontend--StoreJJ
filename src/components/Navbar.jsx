@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { Button } from "./index";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
+import { logout as authLogout } from "../admin/auth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
   const user = useSelector((state) => state.auth.userData);
   const cartItems = useSelector((state) => state.cart.cartItems);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await authLogout();
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      throw error;
+    }
     if (!authStatus) {
       navigate("/login");
     }
-    logout(); // authslice method
-    navigate("/home");
   };
 
   return (
@@ -83,6 +90,11 @@ const Navbar = () => {
                   <ShoppingCart width={"15px"} />{" "}
                 </div>
               </NavLink>
+              {cartItems.length > 0 && (
+                <span className="relative -top-2 -right-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {cartItems.length}
+                </span>
+              )}
             </Button>
 
             {user ? (
@@ -92,7 +104,7 @@ const Navbar = () => {
                     to="/profile"
                     className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
                   >
-                    Profile && {user.role === "admin" ? "admin" : null}
+                    Profile {user.role === "admin" ? "admin" : null}
                   </NavLink>
                 </Button>
               </>
@@ -179,6 +191,11 @@ const Navbar = () => {
                     <ShoppingCart width={"15px"} />
                   </div>
                 </NavLink>
+                {cartItems.length > 0 && (
+                  <span className="relative -top-2 -right-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                    {cartItems.length}
+                  </span>
+                )}
               </Button>
               {user ? (
                 <>
@@ -187,7 +204,7 @@ const Navbar = () => {
                       to="/profile"
                       className="text-sm font-medium text-muted transition-colors duration-200 hover:text-primary"
                     >
-                      Profile && {user.role === "admin" ? "admin" : null}
+                      Profile {user.role === "admin" ? "admin" : null}
                     </NavLink>
                   </Button>
                   <Button type="secondary" onClick={handleLogout}>

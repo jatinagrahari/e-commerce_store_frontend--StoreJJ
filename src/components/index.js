@@ -11,6 +11,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Input from "./Input";
 import CustomerReview from "./CustomerReview";
+import VerifyEmail from "./VerifyEmail";
 
 export {
   Navbar,
@@ -26,4 +27,5 @@ export {
   Input,
   ProductDetails,
   CustomerReview,
+  VerifyEmail,
 };

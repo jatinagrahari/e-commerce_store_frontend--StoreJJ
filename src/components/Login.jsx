@@ -1,12 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
+import { login as authLogin } from "../admin/auth";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
+  const [error, setError] = useState(null);
+  const [isCreated, setIsCreated] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      setIsCreated(true);
+      const user = await authLogin(data.email, data.password);
+      console.log(user.data);
+
+      dispatch(login(user.data.data));
+      toast.success("Logged in successfully");
+      navigate("/");
+    } catch (error) {
+      setIsCreated(false);
+      throw error;
+    }
   };
 
   return (
@@ -38,15 +58,6 @@ const Login = () => {
           />
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-[#6B7280]">
-              <input
-                type="checkbox"
-                className="accent-[#2563EB]"
-                {...register("rememberMe")}
-              />
-              Remember me
-            </label>
-
             <button
               type="button"
               className="text-[#2563EB] hover:text-[#1D4ED8] font-medium"
@@ -58,8 +69,9 @@ const Login = () => {
           <button
             type="submit"
             className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3 rounded-lg transition"
+            disabled={isCreated}
           >
-            Login
+            {isCreated ? "Logging in..." : "Login"}
           </button>
         </form>
 
