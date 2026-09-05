@@ -2,6 +2,7 @@ import React from "react";
 import { X, ShoppingCart, Plus, Minus, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteFromCart, updateQuantity } from "../store/cartSlice";
+import { Link } from "react-router-dom";
 
 const CartDrawer = ({ isOpen, onClose }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -153,10 +154,14 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 ₹{totalPrice}
               </span>
             </div>
-
-            <button className="w-full rounded-lg bg-primary py-3 font-medium text-white transition hover:opacity-90">
-              View Cart
-            </button>
+            <Link to="/checkout">
+              <button
+                className="w-full rounded-lg bg-primary py-3 font-medium text-white transition hover:opacity-90"
+                onClick={onClose}
+              >
+                Proceed to checkout
+              </button>
+            </Link>
           </div>
         )}
       </div>

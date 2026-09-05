@@ -198,51 +198,8 @@ const ProductDetails = () => {
 
             <div className="my-6 border-t border-border" />
 
-            {/* color */}
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold">Color:</span>
-
-                <span className="text-sm text-muted">Navy Blue</span>
-              </div>
-
-              <div className="mt-4 flex items-center gap-3">
-                {/* Selected */}
-                <button
-                  className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-primary p-0.5"
-                  aria-label="Navy Blue"
-                >
-                  <span className="h-full w-full rounded-full bg-blue-950" />
-                </button>
-
-                {/* Black */}
-                <button
-                  className="h-8 w-8 rounded-full border border-border bg-black transition-all hover:scale-110"
-                  aria-label="Black"
-                />
-
-                {/* Gray */}
-                <button
-                  className="h-8 w-8 rounded-full border border-border bg-gray-400 transition-all hover:scale-110"
-                  aria-label="Gray"
-                />
-
-                {/* White */}
-                <button
-                  className="h-8 w-8 rounded-full border border-border bg-white transition-all hover:scale-110"
-                  aria-label="White"
-                />
-
-                {/* Olive */}
-                <button
-                  className="h-8 w-8 rounded-full border border-border bg-green-900 transition-all hover:scale-110"
-                  aria-label="Olive"
-                />
-              </div>
-            </div>
-
             {/* size */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold">Size:</span>
 
@@ -272,7 +229,7 @@ const ProductDetails = () => {
                   XXL
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* Quantity */}
             <div className="mt-6">

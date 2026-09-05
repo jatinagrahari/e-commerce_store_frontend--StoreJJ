@@ -25,23 +25,25 @@ import assesories from "../assets/assesories.png";
 import cart from "../assets/cart.png";
 import discount from "../assets/discount.png";
 import { ProductCard } from "../components";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setProducts as setProds } from "../store/productSlice";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // const fetchProducts = async () => {
     (async () => {
       try {
-        const res = await fetch("/api/v1/products");
-        const data = await res.json();
-        // setProducts(data.slice(0, 4)); // featured products
-        setProducts(data.data); // featured products
+        const res = await axios.get("/api/v1/products");
+        const data = res.data;
+        dispatch(setProds(data.data));
+        setProducts(data.data);
       } catch (error) {
         console.error(error.message);
-      } finally {
-        setLoading(false);
       }
     })();
   }, []);
@@ -70,10 +72,12 @@ const Home = () => {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button type="primary">
-                  Shop Now
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                <Link to="/shop">
+                  <Button type="primary">
+                    Shop Now
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
 
                 <Button type="secondary">
                   Explore Collection
