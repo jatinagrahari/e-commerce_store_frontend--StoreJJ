@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
-import { Button } from "./index";
+import { Button, CartDrawer } from "./index";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
 import { logout as authLogout } from "../admin/auth";
@@ -13,6 +13,7 @@ const Navbar = () => {
   const authStatus = useSelector((state) => state.auth.status);
   const user = useSelector((state) => state.auth.userData);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -80,9 +81,9 @@ const Navbar = () => {
         {/* Right Navigation */}
         <div>
           <div className="hidden md:flex items-center gap-6">
-            <Button>
+            <Button onClick={() => setIsCartOpen(true)}>
               <NavLink
-                to="/shop"
+                to=""
                 className="flex gap-2 justify-center items-center text-sm font-medium transition-colors duration-200"
               >
                 Cart{" "}
@@ -225,6 +226,8 @@ const Navbar = () => {
           </div>
         ) : null}
       </div>
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </nav>
   );
 };

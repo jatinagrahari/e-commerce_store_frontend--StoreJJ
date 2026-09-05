@@ -36,9 +36,12 @@ const cartSlice = createSlice({
         (item) => item.product._id == product._id,
       );
 
-      if (existingItem.quantity > 1) {
-        existingItem.quantity -= quantity;
-      }
+      // if (existingItem.quantity > 1) {
+      existingItem.quantity = quantity;
+      // }
+      // if (existingItem.quantity > 1) {
+      //   existingItem.quantity -= quantity;
+      // }
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },

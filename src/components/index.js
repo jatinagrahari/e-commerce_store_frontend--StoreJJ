@@ -12,6 +12,7 @@ import Signup from "./Signup";
 import Input from "./Input";
 import CustomerReview from "./CustomerReview";
 import VerifyEmail from "./VerifyEmail";
+import CartDrawer from "./CartDrawer";
 
 export {
   Navbar,
@@ -28,4 +29,5 @@ export {
   ProductDetails,
   CustomerReview,
   VerifyEmail,
+  CartDrawer,
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import discount from "../assets/discount.png";
 
 import Button from "./Button";
 
@@ -15,7 +16,7 @@ const ExclusiveOffer = () => {
             </span>
 
             <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Up to 30% Off
+              Up to 80% Off
             </h2>
 
             <p className="mt-3 max-w-md text-muted">
@@ -34,7 +35,7 @@ const ExclusiveOffer = () => {
           {/* Offer Image */}
           <div className="relative min-h-[280px]">
             <img
-              src="/images/promotion.jpg"
+              src={discount}
               alt="Exclusive collection offer"
               className="h-full w-full object-cover"
             />

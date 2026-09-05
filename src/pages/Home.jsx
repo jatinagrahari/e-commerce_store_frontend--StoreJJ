@@ -17,6 +17,13 @@ import {
   CustomerSayCard,
   StoreStats,
 } from "../components";
+import heroImg from "../assets/heroImg.png";
+import clothing from "../assets/clothing.png";
+import electronics from "../assets/electronics.png";
+import shoes from "../assets/shoes.png";
+import assesories from "../assets/assesories.png";
+import cart from "../assets/cart.png";
+import discount from "../assets/discount.png";
 import { ProductCard } from "../components";
 
 const Home = () => {
@@ -41,9 +48,7 @@ const Home = () => {
 
   return (
     <main className="bg-background text-foreground">
-      {/* =========================================================
-          HERO SECTION
-      ========================================================= */}
+      {/* hero section */}
       <section className="mx-auto max-w-7xl px-6 pt-6">
         <div className="overflow-hidden rounded-2xl bg-secondary">
           <div className="grid min-h-[480px] items-center lg:grid-cols-2">
@@ -78,9 +83,9 @@ const Home = () => {
             </div>
 
             {/* Hero Image */}
-            <div className="relative min-h-[350px] lg:min-h-[480px]">
+            <div className="relative min-h-[340px] lg:min-h-[480px]">
               <img
-                src="/images/hero.jpg"
+                src={heroImg}
                 alt="Latest collection"
                 className="h-full w-full object-cover"
               />
@@ -89,9 +94,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          TRUST BENEFITS
-      ========================================================= */}
+      {/* trust cards info */}
       <section className="mx-auto max-w-7xl px-6 py-8">
         <div className="grid overflow-hidden rounded-2xl border border-border bg-surface sm:grid-cols-2 lg:grid-cols-4">
           {/* Free Shipping */}
@@ -148,9 +151,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          SHOP BY CATEGORY
-      ========================================================= */}
+      {/* shop by category */}
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex items-center justify-between">
           <div>
@@ -170,38 +171,18 @@ const Home = () => {
         </div>
 
         <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {/* Men's Fashion */}
+          {/*  Fashion */}
           <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <div className="aspect-square overflow-hidden bg-background">
               <img
-                src="/images/categories/men.jpg"
-                alt="Men's Fashion"
+                src={clothing}
+                alt="Fashion"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
 
             <div className="p-4">
-              <h3 className="font-semibold">Men's Fashion</h3>
-
-              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
-                Shop Now
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Women's Fashion */}
-          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-square overflow-hidden bg-background">
-              <img
-                src="/images/categories/women.jpg"
-                alt="Women's Fashion"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-
-            <div className="p-4">
-              <h3 className="font-semibold">Women's Fashion</h3>
+              <h3 className="font-semibold">Fashion</h3>
 
               <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
                 Shop Now
@@ -214,7 +195,7 @@ const Home = () => {
           <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <div className="aspect-square overflow-hidden bg-background">
               <img
-                src="/images/categories/shoes.jpg"
+                src={shoes}
                 alt="Shoes"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -229,12 +210,31 @@ const Home = () => {
               </button>
             </div>
           </div>
+          {/* electronics */}
+          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="aspect-square overflow-hidden bg-background">
+              <img
+                src={electronics}
+                alt="Shoes"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            <div className="p-4">
+              <h3 className="font-semibold">Electronics</h3>
+
+              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
+                Shop Now
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </div>
 
           {/* Accessories */}
           <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <div className="aspect-square overflow-hidden bg-background">
               <img
-                src="/images/categories/accessories.jpg"
+                src={assesories}
                 alt="Accessories"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -254,7 +254,7 @@ const Home = () => {
           <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <div className="aspect-square overflow-hidden bg-background">
               <img
-                src="/images/categories/new-arrivals.jpg"
+                src={cart}
                 alt="New Arrivals"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -291,17 +291,9 @@ const Home = () => {
         </div>
 
         <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {products.map((product) => (
+          {products.slice(0, 5).map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
-
-          {/*  */}
-
-          <div className="hidden min-h-[420px] items-center justify-center rounded-2xl border border-dashed border-primary/40 bg-secondary lg:flex">
-            <span className="text-sm font-medium text-primary">
-              DATA NEEDED: ProductCard
-            </span>
-          </div>
         </div>
       </section>
 
@@ -382,39 +374,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* =========================================================
-          CUSTOMER REVIEWS
-      ========================================================= */}
-      <section className="border-y border-border bg-secondary/50">
-        <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Customer Reviews
-            </p>
-
-            <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              What Our Customers Say
-            </h2>
-
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted">
-              See what customers have to say about their experience with Store
-              JJ.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <CustomerSayCard />
-            <CustomerSayCard />
-            <CustomerSayCard />
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================
-          STORE STATS
-      ========================================================= */}
-      <StoreStats />
     </main>
   );
 };
