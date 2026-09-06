@@ -18,6 +18,7 @@ import {
   Shop,
   Checkout,
   OrderSuccess,
+  Profile,
 } from "./pages";
 import App from "./App.jsx";
 import ProductDetails from "./components/ProductDetails.jsx";
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
       <Route path="/shop" element={<Shop />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/order-success" element={<OrderSuccess />} />
+      <Route path="/profile" element={<Profile />} />
     </Route>,
   ),
 );

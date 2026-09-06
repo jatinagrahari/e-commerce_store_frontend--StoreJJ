@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
 import { login as authLogin } from "../admin/auth";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
 
 const Login = () => {
@@ -13,12 +13,12 @@ const Login = () => {
   const [isCreated, setIsCreated] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userStatus = useSelector((state) => state.auth.status);
 
   const onSubmit = async (data) => {
     try {
       setIsCreated(true);
       const user = await authLogin(data.email, data.password);
-      console.log(user.data);
 
       dispatch(login(user.data.data));
       toast.success("Logged in successfully");
@@ -28,6 +28,12 @@ const Login = () => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    if (userStatus) {
+      navigate("/");
+    }
+  }, [userStatus, navigate]);
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4 py-10">

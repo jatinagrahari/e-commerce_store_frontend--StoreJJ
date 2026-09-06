@@ -13,6 +13,8 @@ import Input from "./Input";
 import CustomerReview from "./CustomerReview";
 import VerifyEmail from "./VerifyEmail";
 import CartDrawer from "./CartDrawer";
+import Profile from "./Profile";
+import MyOrders from "./MyOrders";
 
 export {
   Navbar,
@@ -30,4 +32,6 @@ export {
   CustomerReview,
   VerifyEmail,
   CartDrawer,
+  Profile,
+  MyOrders,
 };

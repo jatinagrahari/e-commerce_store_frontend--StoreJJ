@@ -2,15 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createAccount } from "../admin/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
 
 const Signup = () => {
   const [error, setError] = useState(null);
   const [isCreated, setIsCreated] = useState(false);
-
+  const userStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,6 +40,12 @@ const Signup = () => {
       setIsCreated(false);
     }
   };
+
+  useEffect(() => {
+    if (userStatus) {
+      navigate("/");
+    }
+  }, [userStatus, navigate]);
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4 py-10">

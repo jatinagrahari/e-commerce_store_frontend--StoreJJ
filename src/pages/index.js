@@ -6,6 +6,7 @@ import Verification from "./Verification";
 import Shop from "./Shop";
 import Checkout from "./Chcekout";
 import OrderSuccess from "./OrderSuccess";
+import Profile from "./Profile";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   Verification,
   Checkout,
   OrderSuccess,
+  Profile,
 };
