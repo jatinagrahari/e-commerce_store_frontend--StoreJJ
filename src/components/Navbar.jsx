@@ -105,9 +105,19 @@ const Navbar = () => {
                     to="/profile"
                     className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
                   >
-                    Profile {user.role === "admin" ? "admin" : null}
+                    Profile
                   </NavLink>
                 </Button>
+                {user.role === "admin" ? (
+                  <Button type="outline">
+                    <NavLink
+                      to="/admin"
+                      className="text-sm font-medium  transition-colors duration-200 hover:text-primary"
+                    >
+                      admin
+                    </NavLink>
+                  </Button>
+                ) : null}
               </>
             ) : (
               <Button type="secondary">

@@ -22,6 +22,13 @@ import {
 } from "./pages";
 import App from "./App.jsx";
 import ProductDetails from "./components/ProductDetails.jsx";
+import {
+  AddProduct,
+  AdminDashboard,
+  AdminProducts,
+  AdminUsers,
+  EditProduct,
+} from "./admin";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +43,13 @@ const router = createBrowserRouter(
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/order-success" element={<OrderSuccess />} />
       <Route path="/profile" element={<Profile />} />
+      {/* //admin routes */}
+
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin/add-product" element={<AddProduct />} />
+      <Route path="/admin/products" element={<AdminProducts />} />
+      <Route path="/admin/edit-product/:id" element={<EditProduct />} />
+      <Route path="/admin/users" element={<AdminUsers />} />
     </Route>,
   ),
 );
