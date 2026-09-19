@@ -18,13 +18,12 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await authLogout();
+    } catch (error) {
+      console.error("Server logout failed", error);
+    } finally {
+      // Always log out locally even if the server returns 401
       dispatch(logout());
       navigate("/");
-    } catch (error) {
-      throw error;
-    }
-    if (!authStatus) {
-      navigate("/login");
     }
   };
 

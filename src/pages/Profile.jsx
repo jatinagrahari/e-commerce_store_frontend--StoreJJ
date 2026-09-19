@@ -36,10 +36,12 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await authLogout();
+    } catch (error) {
+      console.error("Failed to logout on server", error);
+    } finally {
+      // Always clear local state to prevent being trapped in a broken logged-in state
       dispatch(logout());
       navigate("/");
-    } catch (error) {
-      console.error("Failed to logout", error);
     }
   };
 
