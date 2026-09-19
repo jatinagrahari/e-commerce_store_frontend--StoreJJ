@@ -1,38 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  ArrowRight,
-  Truck,
-  ShieldCheck,
-  RotateCcw,
-  Headphones,
-  BadgeCheck,
-  Tag,
-  Star,
-  Heart,
-} from "lucide-react";
+import { ArrowRight, Truck, ShieldCheck, RotateCcw, Headphones, Star } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { setProducts as setProds } from "../store/productSlice";
+import { ProductCard } from "../components";
 
-import {
-  Button,
-  ExclusiveOffer,
-  CustomerSayCard,
-  StoreStats,
-} from "../components";
 import heroImg from "../assets/heroImg.png";
 import clothing from "../assets/clothing.png";
 import electronics from "../assets/electronics.png";
 import shoes from "../assets/shoes.png";
 import assesories from "../assets/assesories.png";
-import cart from "../assets/cart.png";
-import discount from "../assets/discount.png";
-import { ProductCard } from "../components";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setProducts as setProds } from "../store/productSlice";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,335 +27,221 @@ const Home = () => {
         console.error(error.message);
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className="bg-background text-foreground">
-      {/* hero section */}
-      <section className="mx-auto max-w-7xl px-6 pt-6">
-        <div className="overflow-hidden rounded-2xl bg-secondary">
-          <div className="grid min-h-[480px] items-center lg:grid-cols-2">
-            {/* Hero Content */}
-            <div className="px-8 py-14 sm:px-12 lg:px-14">
-              <span className="text-sm font-semibold uppercase tracking-wide text-primary">
-                New Collection 2026
-              </span>
-
-              <h1 className="mt-4 max-w-xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-                Elevate Your
-                <br />
-                Everyday Style
-              </h1>
-
-              <p className="mt-5 max-w-lg text-base leading-7 text-muted sm:text-lg">
-                Discover quality products crafted for comfort, style, and
-                everyday living. Find something you'll love.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link to="/shop">
-                  <Button type="primary">
-                    Shop Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-
-                <Button type="secondary">
-                  Explore Collection
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Hero Image */}
-            <div className="relative min-h-[340px] lg:min-h-[480px]">
-              <img
-                src={heroImg}
-                alt="Latest collection"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
+      {/* 1. Hero Section - Editorial Full Width style */}
+      <section className="relative w-full overflow-hidden bg-surface lg:h-[85vh] xl:h-[800px]">
+        <div className="absolute inset-0">
+          <img
+            src={heroImg}
+            alt="New Collection"
+            className="h-full w-full object-cover object-[80%_center] lg:object-center opacity-90"
+          />
+          {/* Elegant gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent lg:w-2/3" />
         </div>
-      </section>
 
-      {/* trust cards info */}
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <div className="grid overflow-hidden rounded-2xl border border-border bg-surface sm:grid-cols-2 lg:grid-cols-4">
-          {/* Free Shipping */}
-          <div className="flex items-center gap-4 border-b border-border p-6 sm:border-r lg:border-b-0">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
-              <Truck className="h-5 w-5" />
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold">Free Shipping</h3>
-
-              <p className="mt-1 text-xs text-muted">On orders over ₹999</p>
-            </div>
-          </div>
-
-          {/* Secure Payment */}
-          <div className="flex items-center gap-4 border-b border-border p-6 lg:border-b-0 lg:border-r">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold">Secure Payment</h3>
-
-              <p className="mt-1 text-xs text-muted">100% secure checkout</p>
-            </div>
-          </div>
-
-          {/* Returns */}
-          <div className="flex items-center gap-4 border-b border-border p-6 sm:border-r lg:border-b-0">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
-              <RotateCcw className="h-5 w-5" />
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold">7 Days Return</h3>
-
-              <p className="mt-1 text-xs text-muted">Easy returns & refunds</p>
-            </div>
-          </div>
-
-          {/* Customer Support */}
-          <div className="flex items-center gap-4 p-6">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
-              <Headphones className="h-5 w-5" />
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold">Customer Support</h3>
-
-              <p className="mt-1 text-xs text-muted">We're here to help</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* shop by category */}
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Explore
+        <div className="relative mx-auto flex h-full max-w-7xl items-center px-6 py-20 lg:px-8 lg:py-0">
+          <div className="max-w-2xl animate-fade-in">
+            <span className="mb-4 inline-block font-mono text-sm font-semibold uppercase tracking-widest text-primary">
+              Discover Store JJ
+            </span>
+            <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+              Design <br className="hidden sm:block" />
+              meets <span className="text-muted">comfort.</span>
+            </h1>
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted sm:text-xl">
+              Explore our newest arrivals featuring elevated basics, premium materials, and timeless aesthetics.
             </p>
-
-            <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              Shop by Category
-            </h2>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link
+                to="/shop"
+                className="flex h-14 items-center justify-center rounded-full bg-foreground px-8 text-base font-bold text-background transition-transform hover:scale-105 active:scale-95"
+              >
+                Shop Collection
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+              <Link
+                to="/about"
+                className="flex h-14 items-center justify-center rounded-full bg-secondary px-8 text-base font-bold text-foreground transition-colors hover:bg-border"
+              >
+                Our Story
+              </Link>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <button className="hidden items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-hover sm:flex">
-            View All
-            <ArrowRight className="h-4 w-4" />
-          </button>
+      {/* 2. Highlighted Categories - Editorial Grid */}
+      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+        <div className="mb-12 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Curated for you</h2>
+            <p className="mt-2 text-muted">Shop our most popular categories.</p>
+          </div>
+          <Link
+            to="/shop"
+            className="group flex items-center text-sm font-bold text-foreground transition-colors hover:text-muted"
+          >
+            Explore all categories
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
 
-        <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {/*  Fashion */}
-          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-square overflow-hidden bg-background">
-              <img
-                src={clothing}
-                alt="Fashion"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Large Card */}
+          <Link
+            to="/shop?category=Fashion"
+            className="group relative h-[400px] overflow-hidden rounded-3xl bg-secondary md:col-span-2 lg:col-span-2 lg:h-[500px]"
+          >
+            <img
+              src={clothing}
+              alt="Fashion"
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-8">
+              <span className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+                Trending
+              </span>
+              <h3 className="text-3xl font-bold text-white">Fashion & Apparel</h3>
             </div>
+          </Link>
 
-            <div className="p-4">
-              <h3 className="font-semibold">Fashion</h3>
-
-              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
-                Shop Now
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Shoes */}
-          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-square overflow-hidden bg-background">
+          {/* Regular Cards */}
+          <div className="grid gap-6 md:grid-cols-1">
+            <Link
+              to="/shop?category=Shoes"
+              className="group relative h-[240px] overflow-hidden rounded-3xl bg-secondary lg:h-[238px]"
+            >
               <img
                 src={shoes}
                 alt="Shoes"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6">
+                <h3 className="text-2xl font-bold text-white">Footwear</h3>
+              </div>
+            </Link>
 
-            <div className="p-4">
-              <h3 className="font-semibold">Shoes</h3>
-
-              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
-                Shop Now
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-          {/* electronics */}
-          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-square overflow-hidden bg-background">
+            <Link
+              to="/shop?category=Electronics"
+              className="group relative h-[240px] overflow-hidden rounded-3xl bg-secondary lg:h-[238px]"
+            >
               <img
                 src={electronics}
-                alt="Shoes"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                alt="Electronics"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6">
+                <h3 className="text-2xl font-bold text-white">Electronics</h3>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            <div className="p-4">
-              <h3 className="font-semibold">Electronics</h3>
-
-              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
-                Shop Now
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
+      {/* 3. Featured Products */}
+      <section className="bg-secondary/30 py-20 lg:py-28">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mb-12 flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Trending Now</h2>
+            <Link
+              to="/shop?sort=new"
+              className="group flex items-center text-sm font-bold text-foreground transition-colors hover:text-muted"
+            >
+              View all products
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
           </div>
 
-          {/* Accessories */}
-          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-square overflow-hidden bg-background">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
+            {products.slice(0, 8).map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Brand Banner */}
+      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+        <div className="overflow-hidden rounded-[2.5rem] bg-foreground text-background">
+          <div className="grid items-center lg:grid-cols-2">
+            <div className="px-8 py-16 sm:px-16 lg:py-24">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+                Redefining the <br className="hidden sm:block" />
+                modern wardrobe.
+              </h2>
+              <p className="mt-6 max-w-md text-lg text-muted-foreground opacity-80">
+                Quality shouldn't be a luxury. We're on a mission to provide beautifully crafted essentials at accessible prices.
+              </p>
+              
+              <ul className="mt-10 space-y-4">
+                <li className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-background/10 text-background">
+                    <Star className="h-4 w-4" />
+                  </div>
+                  <span className="font-medium">Premium Materials</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-background/10 text-background">
+                    <ShieldCheck className="h-4 w-4" />
+                  </div>
+                  <span className="font-medium">Ethically Crafted</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="relative h-64 lg:h-full">
               <img
                 src={assesories}
-                alt="Accessories"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                alt="Accessories collection"
+                className="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-luminosity"
               />
-            </div>
-
-            <div className="p-4">
-              <h3 className="font-semibold">Accessories</h3>
-
-              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
-                Shop Now
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* New Arrivals */}
-          <div className="group overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-square overflow-hidden bg-background">
-              <img
-                src={cart}
-                alt="New Arrivals"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-
-            <div className="p-4">
-              <h3 className="font-semibold">New Arrivals</h3>
-
-              <button className="mt-2 flex items-center gap-1 text-sm font-medium text-primary">
-                Shop Now
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
             </div>
           </div>
         </div>
       </section>
-      {/* featured section */}
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Latest
-            </p>
 
-            <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              Featured Products
-            </h2>
-          </div>
-
-          <button className="hidden items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-hover sm:flex">
-            View All
-            <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
-
-        <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {products.slice(0, 5).map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      {/* exclusive offer */}
-      <ExclusiveOffer />
-
-      {/* why shop with us */}
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-            Our Promise
-          </p>
-
-          <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-            Why Shop With Us
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted">
-            We focus on quality products, fair prices, and a shopping experience
-            you can rely on.
-          </p>
-        </div>
-
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Quality Products */}
-          <div className="rounded-2xl border border-border bg-surface p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-primary">
-              <BadgeCheck className="h-6 w-6" />
+      {/* 5. Store Features (Trust section) */}
+      <section className="border-t border-border bg-surface py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-foreground">
+                <Truck className="h-7 w-7" />
+              </div>
+              <h3 className="font-bold">Free Shipping</h3>
+              <p className="mt-1 text-sm text-muted">On all orders over ₹999</p>
             </div>
 
-            <h3 className="mt-5 text-sm font-semibold">Quality Products</h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              Carefully selected products built to deliver quality and lasting
-              value.
-            </p>
-          </div>
-
-          {/* Great Prices */}
-          <div className="rounded-2xl border border-border bg-surface p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-primary">
-              <Tag className="h-6 w-6" />
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-foreground">
+                <RotateCcw className="h-7 w-7" />
+              </div>
+              <h3 className="font-bold">7 Days Return</h3>
+              <p className="mt-1 text-sm text-muted">Hassle-free return policy</p>
             </div>
 
-            <h3 className="mt-5 text-sm font-semibold">Great Prices</h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              Competitive pricing that gives you more value for every purchase.
-            </p>
-          </div>
-
-          {/* Trendy Designs */}
-          <div className="rounded-2xl border border-border bg-surface p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-primary">
-              <Star className="h-6 w-6" />
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-foreground">
+                <ShieldCheck className="h-7 w-7" />
+              </div>
+              <h3 className="font-bold">Secure Payment</h3>
+              <p className="mt-1 text-sm text-muted">100% secure checkout</p>
             </div>
 
-            <h3 className="mt-5 text-sm font-semibold">Trendy Designs</h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              Stay ahead with products that combine modern design and everyday
-              functionality.
-            </p>
-          </div>
-
-          {/* Loved by Customers */}
-          <div className="rounded-2xl border border-border bg-surface p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-primary">
-              <Heart className="h-6 w-6" />
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary text-foreground">
+                <Headphones className="h-7 w-7" />
+              </div>
+              <h3 className="font-bold">24/7 Support</h3>
+              <p className="mt-1 text-sm text-muted">Dedicated customer service</p>
             </div>
-
-            <h3 className="mt-5 text-sm font-semibold">Loved by Customers</h3>
-
-            <p className="mt-2 text-sm leading-6 text-muted">
-              Your satisfaction matters to us from your first visit to every
-              purchase.
-            </p>
           </div>
         </div>
       </section>

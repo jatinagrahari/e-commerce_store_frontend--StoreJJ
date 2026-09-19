@@ -17,8 +17,7 @@ const Footer = () => {
             </h2>
 
             <p className="mt-4 max-w-xs text-sm leading-6 text-gray-400">
-              A modern full-stack e-commerce application built from the ground
-              up using the MERN stack.
+              A modern full-stack e-commerce experience.
             </p>
 
             {/* Social Links */}

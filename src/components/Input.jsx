@@ -9,7 +9,7 @@ const Input = React.forwardRef(function Input(
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium">
+        <label htmlFor={id} className="text-sm font-medium text-foreground">
           {label}
         </label>
       )}
@@ -19,7 +19,7 @@ const Input = React.forwardRef(function Input(
         ref={ref}
         type={type}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
         {...props}
       />
     </div>

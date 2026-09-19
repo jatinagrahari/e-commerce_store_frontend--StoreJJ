@@ -70,10 +70,16 @@ const AboutPage = () => {
                 <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
 
-              <Button type="secondary">
-                <SiGithub className="mr-2 h-4 w-4" />
-                View on GitHub
-              </Button>
+              <a
+                href="https://github.com/jatinagrahari/e-commerce_store_frontend--StoreJJ"
+                target="_blank"
+                className=""
+              >
+                <Button type="secondary">
+                  <SiGithub className="mr-2 h-4 w-4" />
+                  View on GitHub
+                </Button>
+              </a>
             </div>
           </div>
 
@@ -81,7 +87,7 @@ const AboutPage = () => {
           <div className="relative overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
             <img
               src={devBg}
-              alt="Developer working on the Shoply project"
+              alt="Developer working on the Store JJ project"
               className="h-full min-h-90 w-full object-cover"
             />
           </div>
@@ -103,7 +109,7 @@ const AboutPage = () => {
               </h2>
 
               <p className="mt-5 max-w-xl leading-7 text-muted">
-                Shoply is a full-stack MERN e-commerce application built to
+                Store JJ is a full-stack MERN e-commerce application built to
                 simulate a real-world online store. Users can browse products,
                 manage their cart, create orders, manage addresses, and interact
                 with the application through a responsive frontend.

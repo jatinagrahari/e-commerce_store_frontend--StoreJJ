@@ -5,6 +5,7 @@ import { Profile as ProfileComp, MyOrders } from "../components";
 import { logout as authLogout } from "../admin/auth";
 import { logout } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { UserCircle, Package, LogOut, ChevronRight } from "lucide-react";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.userData);
@@ -25,7 +26,7 @@ const Profile = () => {
         const response = await axios.get("/api/v1/orders/myorders");
         setOrders(response.data.data);
       } catch (error) {
-        throw error;
+        console.error("Failed to fetch orders", error);
       }
     };
 
@@ -38,33 +39,31 @@ const Profile = () => {
       dispatch(logout());
       navigate("/");
     } catch (error) {
-      throw error;
+      console.error("Failed to logout", error);
     }
   };
 
   const options = {
-    profile: <ProfileComp user={user} />,
+    profile: <ProfileComp user={user} ordersCount={orders.length} />,
     myOrders: <MyOrders orders={orders} />,
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h1 className="mb-8 text-3xl font-bold text-gray-900">My Account</h1>
+        <h1 className="mb-8 text-3xl font-bold tracking-tight text-foreground">My Account</h1>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:items-start">
           {/* Sidebar */}
-          <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <aside className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
             {/* User */}
-            <div className="mb-6 flex items-center gap-4 border-b border-gray-200 pb-5">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-xl font-semibold text-gray-700">
+            <div className="mb-8 flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-xl font-bold text-primary">
                 {user?.name?.[0]?.toUpperCase()}
               </div>
-
               <div>
-                <h2 className="font-semibold text-gray-900">{user?.name}</h2>
-
-                <p className="text-sm text-gray-500">My Account</p>
+                <h2 className="font-semibold text-foreground line-clamp-1">{user?.name}</h2>
+                <p className="text-sm text-muted">{user?.email}</p>
               </div>
             </div>
 
@@ -72,56 +71,52 @@ const Profile = () => {
             <nav className="space-y-2">
               <button
                 onClick={() => setActiveTab("profile")}
-                className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition ${
+                className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === "profile"
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-600 hover:bg-gray-100"
+                    ? "bg-foreground text-background"
+                    : "text-muted hover:bg-secondary hover:text-foreground"
                 }`}
               >
-                Profile
+                <div className="flex items-center gap-3">
+                  <UserCircle className="h-5 w-5" />
+                  Profile Details
+                </div>
+                {activeTab === "profile" && <ChevronRight className="h-4 w-4" />}
               </button>
 
               <button
                 onClick={() => setActiveTab("myOrders")}
-                className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition ${
+                className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === "myOrders"
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-600 hover:bg-gray-100"
+                    ? "bg-foreground text-background"
+                    : "text-muted hover:bg-secondary hover:text-foreground"
                 }`}
               >
-                My Orders
+                <div className="flex items-center gap-3">
+                  <Package className="h-5 w-5" />
+                  My Orders
+                </div>
+                {activeTab === "myOrders" && <ChevronRight className="h-4 w-4" />}
               </button>
 
-              {/* Future tabs */}
-
-              {/* 
-              <button
-                className="w-full rounded-xl px-4 py-3 text-left text-sm
-                font-medium text-gray-600 hover:bg-gray-100"
-              >
-                Addresses
-              </button>
+              <div className="my-4 border-t border-border" />
 
               <button
-                className="w-full rounded-xl px-4 py-3 text-left text-sm
-                font-medium text-gray-600 hover:bg-gray-100"
-              >
-                Account Settings
-              </button>
-              */}
-
-              <button
-                className="mt-4 w-full rounded-xl px-4 py-3 text-left
-                text-sm font-medium text-red-600 transition hover:bg-red-50"
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-error transition hover:bg-error/10"
                 onClick={handleLogout}
               >
+                <LogOut className="h-5 w-5" />
                 Logout
               </button>
             </nav>
           </aside>
 
           {/* Main Content */}
-          <main className="lg:col-span-3">{options[activeTab]}</main>
+          <main className="lg:col-span-3">
+            <div className="animate-fade-in">
+              {options[activeTab]}
+            </div>
+          </main>
         </div>
       </div>
     </div>

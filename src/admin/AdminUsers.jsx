@@ -1,19 +1,23 @@
 import React from "react";
+import { Users2, Trash2, Mail } from "lucide-react";
 
 const AdminUsers = () => {
   return (
-    <div className="min-h-screen bg-gray-50 p-6 lg:p-8">
-      <div className="mx-auto max-w-7xl">
+    <div className="min-h-screen bg-background p-6 lg:p-10">
+      <div className="mx-auto max-w-7xl animate-fade-in">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-          <p className="mt-1 text-gray-500">Manage registered users.</p>
+          <div className="flex items-center gap-3">
+            <Users2 className="h-8 w-8 text-primary" />
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Users</h1>
+          </div>
+          <p className="mt-2 text-sm text-muted">Manage registered users.</p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[750px] text-left">
               <thead>
-                <tr className="border-b border-gray-200 bg-gray-50 text-sm text-gray-500">
+                <tr className="border-b border-border bg-secondary/50 text-xs font-semibold uppercase tracking-wider text-muted">
                   <th className="px-6 py-4">User</th>
                   <th className="px-6 py-4">Email</th>
                   <th className="px-6 py-4">Role</th>
@@ -23,67 +27,79 @@ const AdminUsers = () => {
               </thead>
 
               <tbody>
-                <tr className="border-b border-gray-100">
+                <tr className="border-b border-border/50 transition-colors hover:bg-secondary/20">
                   <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-600">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 font-bold text-primary">
                         J
                       </div>
 
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-semibold text-foreground">
                           Jatin Agrahari
                         </p>
-                        <p className="text-sm text-gray-500">#USER-001</p>
+                        <p className="text-xs font-mono text-muted mt-0.5">#USER-001</p>
                       </div>
                     </div>
                   </td>
 
-                  <td className="px-6 py-5 text-gray-600">jatin@example.com</td>
+                  <td className="px-6 py-5">
+                    <div className="flex items-center gap-2 text-sm text-foreground">
+                      <Mail className="h-4 w-4 text-muted" />
+                      jatin@example.com
+                    </div>
+                  </td>
 
                   <td className="px-6 py-5">
-                    <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+                    <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-500 border border-blue-500/20">
                       User
                     </span>
                   </td>
 
-                  <td className="px-6 py-5 text-gray-600">01 Sep 2026</td>
+                  <td className="px-6 py-5 text-sm text-muted">01 Sep 2026</td>
 
                   <td className="px-6 py-5">
-                    <button className="rounded-lg bg-red-50 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-100">
+                    <button className="flex items-center gap-1.5 rounded-lg border border-error/20 bg-error/10 px-3 py-2 text-sm font-medium text-error transition-colors hover:bg-error/20">
+                      <Trash2 className="h-3.5 w-3.5" />
                       Delete
                     </button>
                   </td>
                 </tr>
 
-                <tr>
+                <tr className="transition-colors hover:bg-secondary/20">
                   <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-600">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 font-bold text-primary">
                         R
                       </div>
 
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-semibold text-foreground">
                           Rahul Sharma
                         </p>
-                        <p className="text-sm text-gray-500">#USER-002</p>
+                        <p className="text-xs font-mono text-muted mt-0.5">#USER-002</p>
                       </div>
                     </div>
                   </td>
 
-                  <td className="px-6 py-5 text-gray-600">rahul@example.com</td>
+                  <td className="px-6 py-5">
+                    <div className="flex items-center gap-2 text-sm text-foreground">
+                      <Mail className="h-4 w-4 text-muted" />
+                      rahul@example.com
+                    </div>
+                  </td>
 
                   <td className="px-6 py-5">
-                    <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+                    <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-500 border border-blue-500/20">
                       User
                     </span>
                   </td>
 
-                  <td className="px-6 py-5 text-gray-600">28 Aug 2026</td>
+                  <td className="px-6 py-5 text-sm text-muted">28 Aug 2026</td>
 
                   <td className="px-6 py-5">
-                    <button className="rounded-lg bg-red-50 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-100">
+                    <button className="flex items-center gap-1.5 rounded-lg border border-error/20 bg-error/10 px-3 py-2 text-sm font-medium text-error transition-colors hover:bg-error/20">
+                      <Trash2 className="h-3.5 w-3.5" />
                       Delete
                     </button>
                   </td>

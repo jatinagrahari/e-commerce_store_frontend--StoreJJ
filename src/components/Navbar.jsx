@@ -29,11 +29,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full border-b border-border bg-surface">
+    <nav className="sticky top-0 z-50 w-full border-b border-border bg-surface/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
-        <div className="text-2xl font-bold tracking-tight text-foreground">
-          Logo
+        <div className="text-2xl font-bold tracking-tighter text-foreground">
+          Store JJ
         </div>
 
         {/* Main Navigation */}

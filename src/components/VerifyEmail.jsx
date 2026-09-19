@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { resendOtp, verifyOtp } from "../admin/auth";
+import { MailCheck, ArrowRight } from "lucide-react";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -18,11 +19,12 @@ const VerifyEmail = () => {
   const onSubmit = async (data) => {
     setIsCreated(true);
     try {
-      const user = await verifyOtp(data.otp);
-      toast.success(" Verification successfull");
+      await verifyOtp(data.otp);
+      toast.success("Verification successful!");
       navigate("/");
     } catch (error) {
-      setError(error.message);
+      setError(error.response?.data?.message || error.message || "Failed to verify OTP.");
+    } finally {
       setIsCreated(false);
     }
   };
@@ -30,32 +32,40 @@ const VerifyEmail = () => {
   const handleResendOtp = async () => {
     try {
       await resendOtp();
-      toast.success("Otp resent successfull");
+      toast.success("OTP resent successfully!");
     } catch (error) {
-      throw error;
+      toast.error(error.response?.data?.message || "Failed to resend OTP.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-8">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-10 relative overflow-hidden">
+      {/* Decorative background blurs */}
+      <div className="absolute top-0 right-1/4 h-96 w-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 h-96 w-96 translate-y-1/2 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+
+      <div className="w-full max-w-md bg-surface/80 backdrop-blur-xl rounded-3xl border border-border/50 shadow-2xl p-8 sm:p-10 relative z-10 animate-fade-in">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#111111]">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-6">
+            <MailCheck className="h-8 w-8" />
+          </div>
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">
             Verify Your Email
           </h1>
-
-          <p className="text-[#6B7280] mt-2">
-            Enter the OTP sent to your email address
+          <p className="text-muted mt-3">
+            Enter the 6-digit verification code sent to your email address
           </p>
         </div>
 
         {error && (
-          <p className="text-red-500 text-sm text-center py-4">{error}</p>
+          <div className="mb-6 rounded-xl bg-error/10 p-3 text-center text-sm font-medium text-error border border-error/20">
+            {error}
+          </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-[#111111] mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Verification Code
             </label>
 
@@ -63,45 +73,50 @@ const VerifyEmail = () => {
               type="text"
               inputMode="numeric"
               maxLength={6}
-              placeholder="Enter 6-digit OTP"
-              className="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#EFF6FF] transition text-center tracking-[0.5em]"
+              placeholder="• • • • • •"
+              className="w-full px-4 py-4 rounded-xl border border-border bg-background outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-center tracking-[1em] text-xl font-bold text-foreground placeholder:tracking-[0.5em] placeholder:text-muted/50 placeholder:font-normal"
               {...register("otp", {
                 required: "OTP is required",
-                minLength: {
-                  value: 6,
-                  message: "OTP must be 6 digits",
-                },
-                maxLength: {
-                  value: 6,
-                  message: "OTP must be 6 digits",
+                pattern: {
+                  value: /^\d{6}$/,
+                  message: "OTP must be exactly 6 digits",
                 },
               })}
             />
 
             {errors.otp && (
-              <p className="text-red-500 text-sm mt-2">{errors.otp.message}</p>
+              <p className="text-error text-xs font-medium mt-2 text-center">{errors.otp.message}</p>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3 rounded-lg transition"
+            className="w-full flex justify-center items-center gap-2 bg-foreground hover:bg-foreground/90 text-background font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-4"
             disabled={isCreated}
           >
-            {isCreated ? "verifying..." : "Verify Email"}
+            {isCreated ? (
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-background border-t-transparent" />
+            ) : (
+              <>
+                Verify Email
+                <ArrowRight className="h-4 w-4" />
+              </>
+            )}
           </button>
         </form>
 
-        <p className="text-center text-sm text-[#6B7280] mt-6">
-          Didn't receive the code?{" "}
-          <button
-            type="button"
-            className="text-[#2563EB] font-medium hover:text-[#1D4ED8]"
-            onClick={handleResendOtp}
-          >
-            Resend OTP
-          </button>
-        </p>
+        <div className="mt-8 text-center border-t border-border/50 pt-8">
+          <p className="text-sm text-muted">
+            Didn't receive the code?{" "}
+            <button
+              type="button"
+              className="text-primary font-bold hover:underline"
+              onClick={handleResendOtp}
+            >
+              Resend OTP
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );

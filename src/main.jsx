@@ -3,12 +3,18 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
+import axios from "axios";
 import {
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+
+// Configure Axios for the production backend
+axios.defaults.baseURL = "https://e-commerce-store-backend-storejj.onrender.com";
+axios.defaults.withCredentials = true;
+
 import {
   About,
   Home,
@@ -27,6 +33,7 @@ import {
   AdminDashboard,
   AdminProducts,
   AdminUsers,
+  AdminOrders,
   EditProduct,
 } from "./admin";
 
@@ -48,6 +55,7 @@ const router = createBrowserRouter(
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin/add-product" element={<AddProduct />} />
       <Route path="/admin/products" element={<AdminProducts />} />
+      <Route path="/admin/orders" element={<AdminOrders />} />
       <Route path="/admin/edit-product/:id" element={<EditProduct />} />
       <Route path="/admin/users" element={<AdminUsers />} />
     </Route>,
